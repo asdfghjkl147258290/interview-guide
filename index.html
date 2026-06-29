@@ -1,0 +1,1954 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>面试来访引导</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  background: #f0f2f5;
+  color: #1a1a2e;
+  min-height: 100vh;
+}
+
+/* ===== 顶部品牌栏 ===== */
+.header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  padding: 28px 24px 24px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: #f0f2f5;
+  border-radius: 50% 50% 0 0;
+}
+.header h1 {
+  color: #fff;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+.header p {
+  color: rgba(255,255,255,0.6);
+  font-size: 13px;
+  margin-top: 6px;
+}
+/* HR后台头部 */
+.header.hr-header {
+  padding-bottom: 32px;
+}
+.header.hr-header h1 { font-size: 20px; }
+.header .hr-badge {
+  display: inline-block;
+  background: rgba(233,69,96,0.9);
+  color: #fff;
+  font-size: 11px;
+  padding: 2px 10px;
+  border-radius: 20px;
+  margin-top: 8px;
+  letter-spacing: 1px;
+}
+
+/* ===== 通用组件 ===== */
+.container {
+  padding: 24px 16px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+.card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  margin-bottom: 16px;
+}
+.card-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card-title::before {
+  content: '';
+  width: 4px;
+  height: 20px;
+  background: linear-gradient(180deg, #0f3460, #e94560);
+  border-radius: 2px;
+}
+
+/* 表单 */
+.field { margin-bottom: 18px; }
+.field label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8px;
+}
+.field .req { color: #e94560; margin-left: 2px; }
+.field input, .field select, .field textarea {
+  width: 100%;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 0 16px;
+  font-size: 15px;
+  color: #333;
+  background: #fafbfc;
+  transition: all 0.2s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.field input, .field select { height: 48px; }
+.field textarea { height: 80px; padding: 12px 16px; resize: none; }
+.field input:focus, .field select:focus, .field textarea:focus {
+  outline: none;
+  border-color: #0f3460;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(15,52,96,0.08);
+}
+.field input::placeholder, .field textarea::placeholder { color: #bbb; }
+.field select {
+  background: #fafbfc url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' stroke-width='1.5' fill='none'/%3E%3C/svg%3E") no-repeat right 16px center;
+  padding-right: 40px;
+}
+
+.plate-field {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.35s ease, opacity 0.3s ease, margin 0.3s ease;
+  margin-bottom: 0;
+}
+.plate-field.show {
+  max-height: 120px;
+  opacity: 1;
+  margin-bottom: 18px;
+}
+
+/* 按钮 */
+.btn-primary {
+  width: 100%;
+  height: 50px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #1a1a2e, #0f3460);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-primary:active { transform: scale(0.98); opacity: 0.9; }
+.btn-primary:disabled { background: #ccc; cursor: not-allowed; }
+
+.btn-outline {
+  width: 100%;
+  height: 44px;
+  border: 1.5px solid #d0d5dd;
+  border-radius: 12px;
+  background: #fff;
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-outline:active { background: #f0f2f5; }
+
+.btn-danger {
+  width: 100%;
+  height: 44px;
+  border: 1.5px solid #e94560;
+  border-radius: 12px;
+  background: #fff;
+  color: #e94560;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-danger:active { background: #fef2f4; }
+
+.btn-small {
+  display: inline-block;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 16px;
+  border: 1.5px solid #d0d5dd;
+  border-radius: 8px;
+  background: #fff;
+  color: #333;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.btn-add-step {
+  width: 100%;
+  height: 44px;
+  border: 2px dashed #d0d5dd;
+  border-radius: 12px;
+  background: transparent;
+  color: #0f3460;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 12px;
+}
+.btn-add-step:active { background: #f0f2f5; border-color: #0f3460; }
+
+/* ===== 求职者 - 引导页 ===== */
+.welcome-banner {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  text-align: center;
+}
+.welcome-banner .greeting {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+.welcome-banner .time-info {
+  font-size: 14px;
+  color: #666;
+  margin-top: 6px;
+}
+
+.address-card {
+  background: linear-gradient(135deg, #1a1a2e, #0f3460);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 16px;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+.address-card::after {
+  content: '';
+  position: absolute;
+  top: -30px;
+  right: -30px;
+  width: 100px;
+  height: 100px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 50%;
+}
+.address-card .label {
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+.address-card .addr-text {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.6;
+}
+.address-card .plate-info {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,0.15);
+  font-size: 13px;
+  color: rgba(255,255,255,0.7);
+}
+
+/* 会议室信息卡片 */
+.room-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 18px 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.room-card .room-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #1a1a2e, #0f3460);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.room-card .room-icon svg { width: 22px; height: 22px; color: #fff; }
+.room-card .room-label { font-size: 12px; color: #888; }
+.room-card .room-name { font-size: 16px; font-weight: 600; color: #1a1a2e; margin-top: 2px; }
+
+.step-card {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 0;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.step-header {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  gap: 14px;
+}
+.step-num {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1a1a2e, #0f3460);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.step-title { font-size: 16px; font-weight: 600; color: #1a1a2e; }
+.step-desc { font-size: 13px; color: #888; margin-top: 2px; }
+.step-body { padding: 0 20px 20px; }
+
+.photo-display {
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f0f2f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #bbb;
+  font-size: 13px;
+}
+.photo-display img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.connector {
+  display: flex;
+  justify-content: center;
+  padding: 4px 0;
+}
+.connector .line {
+  width: 2px;
+  height: 24px;
+  background: linear-gradient(180deg, #0f3460, rgba(15,52,96,0.2));
+  border-radius: 1px;
+}
+
+.thanks-section {
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px 24px;
+  text-align: center;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  margin-top: 16px;
+}
+.thanks-section .icon-check {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #1a1a2e, #0f3460);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+.thanks-section .icon-check svg { width: 28px; height: 28px; color: #fff; }
+.thanks-section h3 { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.thanks-section p { font-size: 14px; color: #666; line-height: 1.6; }
+
+/* ===== HR 后台 ===== */
+.hr-nav {
+  display: flex;
+  gap: 0;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.hr-nav button {
+  flex: 1;
+  height: 44px;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+.hr-nav button.active {
+  color: #0f3460;
+  font-weight: 600;
+  background: rgba(15,52,96,0.06);
+}
+.hr-nav button.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 20%;
+  right: 20%;
+  height: 3px;
+  background: #0f3460;
+  border-radius: 2px 2px 0 0;
+}
+
+/* HR 照片上传 */
+.upload-slot {
+  width: 100%;
+  aspect-ratio: 16/9;
+  border: 2px dashed #d0d5dd;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #fafbfc;
+  color: #999;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.upload-slot:active { background: #f0f2f5; }
+.upload-slot svg { width: 28px; height: 28px; margin-bottom: 6px; color: #bbb; }
+.upload-slot .up-text { font-size: 13px; }
+.upload-slot img {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.upload-slot .remove-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+}
+.upload-slot input[type="file"] { display: none; }
+
+/* 求职者列表 */
+.visitor-item {
+  border: 1.5px solid #eee;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  transition: all 0.2s;
+}
+.visitor-item:active { background: #fafbfc; }
+.visitor-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+.visitor-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+.visitor-tag {
+  display: inline-block;
+  font-size: 12px;
+  padding: 2px 10px;
+  border-radius: 20px;
+  background: #f0f2f5;
+  color: #555;
+}
+.visitor-tag.drive { background: #e8f4fd; color: #0f3460; }
+.visitor-tag.transit { background: #e8fdf0; color: #0a6640; }
+.visitor-time {
+  font-size: 12px;
+  color: #999;
+  margin-top: 8px;
+}
+.visitor-room-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #f0f0f0;
+}
+.visitor-room-row label {
+  font-size: 13px;
+  color: #555;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.visitor-room-row select {
+  flex: 1;
+  height: 36px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 0 10px;
+  font-size: 13px;
+  color: #333;
+  background: #fafbfc;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23999' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 28px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: #999;
+}
+.empty-state svg { width: 48px; height: 48px; margin-bottom: 12px; color: #ddd; }
+.empty-state p { font-size: 14px; }
+
+/* 密码弹窗 */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 24px;
+}
+.modal-box {
+  background: #fff;
+  border-radius: 20px;
+  padding: 28px 24px;
+  width: 100%;
+  max-width: 360px;
+  text-align: center;
+}
+.modal-box h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #1a1a2e;
+}
+.modal-box p {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 20px;
+}
+.modal-box input {
+  width: 100%;
+  height: 48px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 0 16px;
+  font-size: 16px;
+  text-align: center;
+  letter-spacing: 4px;
+  margin-bottom: 16px;
+}
+.modal-box input:focus {
+  outline: none;
+  border-color: #0f3460;
+}
+.modal-btns {
+  display: flex;
+  gap: 12px;
+}
+.modal-btns button {
+  flex: 1;
+  height: 44px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.modal-cancel {
+  border: 1.5px solid #d0d5dd;
+  background: #fff;
+  color: #333;
+}
+.modal-confirm {
+  border: none;
+  background: linear-gradient(135deg, #1a1a2e, #0f3460);
+  color: #fff;
+}
+
+/* HR入口按钮 */
+.hr-entry {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(26,26,46,0.85);
+  color: #fff;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  transition: all 0.2s;
+}
+.hr-entry:active { transform: scale(0.9); }
+
+/* 统计卡片 */
+.stats-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.stat-item {
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px 12px;
+  text-align: center;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.stat-num {
+  font-size: 28px;
+  font-weight: 700;
+  color: #0f3460;
+}
+.stat-label {
+  font-size: 12px;
+  color: #888;
+  margin-top: 4px;
+}
+
+/* 设置项 */
+.setting-group {
+  margin-bottom: 20px;
+}
+.setting-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+.setting-hint {
+  font-size: 12px;
+  color: #aaa;
+  margin-top: 6px;
+}
+.divider {
+  height: 1px;
+  background: #eee;
+  margin: 20px 0;
+}
+
+/* 密码修改 */
+.pw-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.pw-row input { flex: 1; height: 44px; }
+.pw-row button {
+  height: 44px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 12px;
+  background: #0f3460;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* ===== 会议室管理 ===== */
+.room-list-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.room-list-item input {
+  flex: 1;
+  height: 40px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 0 14px;
+  font-size: 14px;
+  color: #333;
+  background: #fafbfc;
+}
+.room-list-item input:focus {
+  outline: none;
+  border-color: #0f3460;
+  background: #fff;
+}
+.room-del-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1.5px solid #fde;
+  background: #fff5f6;
+  color: #e94560;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+.room-del-btn:active { background: #fde; }
+.btn-add-room {
+  width: 100%;
+  height: 40px;
+  border: 2px dashed #d0d5dd;
+  border-radius: 10px;
+  background: transparent;
+  color: #0f3460;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 4px;
+}
+.btn-add-room:active { background: #f0f2f5; border-color: #0f3460; }
+
+/* ===== 步骤编辑卡片 ===== */
+.step-edit-card {
+  border: 1.5px solid #e8eaed;
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 14px;
+  background: #fafbfc;
+  position: relative;
+}
+.step-edit-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.step-edit-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #0f3460;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.step-edit-title-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a2e;
+  flex: 1;
+}
+.step-edit-del {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background: #fff5f6;
+  color: #e94560;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.step-edit-del:active { background: #fde; }
+.step-edit-field {
+  margin-bottom: 10px;
+}
+.step-edit-field label {
+  display: block;
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 4px;
+}
+.step-edit-field input {
+  width: 100%;
+  height: 38px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 0 12px;
+  font-size: 14px;
+  color: #333;
+  background: #fff;
+}
+.step-edit-field input:focus {
+  outline: none;
+  border-color: #0f3460;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-80px);
+  background: #1a1a2e;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-size: 14px;
+  z-index: 200;
+  transition: transform 0.3s ease;
+  white-space: nowrap;
+}
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+}
+
+/* 隐藏/显示 */
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<!-- ====== 求职者 - 填写页 ====== -->
+<div id="pageCandidate">
+  <div class="header">
+    <h1>面试来访引导</h1>
+    <p>欢迎加入我们</p>
+  </div>
+
+  <div class="container" id="formSection">
+    <div class="card">
+      <div class="card-title">来访信息登记</div>
+      <div class="field">
+        <label>姓名 <span class="req">*</span></label>
+        <input type="text" id="cName" placeholder="请输入您的姓名">
+      </div>
+      <div class="field">
+        <label>出行方式 <span class="req">*</span></label>
+        <select id="cTravel">
+          <option value="" disabled selected>请选择出行方式</option>
+          <option value="drive">自驾</option>
+          <option value="transit">公共交通</option>
+        </select>
+      </div>
+      <div class="plate-field" id="plateWrap">
+        <div class="field" style="margin-bottom:0">
+          <label>车牌号 <span class="req">*</span></label>
+          <input type="text" id="cPlate" placeholder="如：京A12345">
+        </div>
+      </div>
+      <div class="field">
+        <label>面试时间 <span class="req">*</span></label>
+        <div style="display:flex;gap:10px;align-items:center">
+          <input type="datetime-local" id="cTime" style="flex:1">
+          <button class="btn-small" id="cTimeConfirm" style="height:48px;flex-shrink:0;border-color:#0f3460;color:#0f3460;font-weight:600">确定</button>
+        </div>
+        <div class="setting-hint hidden" id="cTimeConfirmed" style="color:#0a6640;margin-top:6px">✓ 已确认</div>
+      </div>
+      <button class="btn-primary" id="submitBtn" disabled>确认信息，查看引导</button>
+    </div>
+  </div>
+
+  <!-- 引导页 -->
+  <div class="container hidden" id="guideSection" style="padding-bottom:80px">
+    <div class="welcome-banner">
+      <div class="greeting" id="gName"></div>
+      <div class="time-info" id="gTime"></div>
+    </div>
+    <div class="address-card" id="addrCard">
+      <div class="label">面试地点</div>
+      <div class="addr-text" id="gAddr"></div>
+      <div class="plate-info hidden" id="gPlate"></div>
+    </div>
+
+    <!-- 会议室信息（动态渲染） -->
+    <div id="roomInfoCard"></div>
+
+    <div id="stepsContainer"></div>
+
+    <div class="thanks-section">
+      <div class="icon-check">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 13l4 4L19 7"/></svg>
+      </div>
+      <h3>感谢您来面试</h3>
+      <p>有消息会第一时间通知您<br>祝您面试顺利 ✨</p>
+    </div>
+  </div>
+
+  <!-- HR入口 -->
+  <button class="hr-entry" id="hrEntryBtn" title="HR管理后台">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+  </button>
+</div>
+
+<!-- ====== HR 后台 ====== -->
+<div id="pageHR" class="hidden">
+  <div class="header hr-header">
+    <h1>面试引导管理后台</h1>
+    <div class="hr-badge">HR 管理面板</div>
+  </div>
+
+  <div class="container">
+    <!-- Tab 导航 -->
+    <div class="hr-nav">
+      <button class="active" data-tab="visitors">求职者记录</button>
+      <button data-tab="config">页面配置</button>
+      <button data-tab="settings">设置</button>
+    </div>
+
+    <!-- Tab: 求职者记录 -->
+    <div id="tabVisitors">
+      <div class="stats-row" id="statsRow">
+        <div class="stat-item">
+          <div class="stat-num" id="statTotal">0</div>
+          <div class="stat-label">总来访</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num" id="statDrive">0</div>
+          <div class="stat-label">自驾</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num" id="statTransit">0</div>
+          <div class="stat-label">公共交通</div>
+        </div>
+      </div>
+      <div id="visitorList"></div>
+    </div>
+
+    <!-- Tab: 页面配置 -->
+    <div id="tabConfig" class="hidden">
+      <!-- 会议室管理 -->
+      <div class="card">
+        <div class="card-title">会议室管理</div>
+        <div id="roomManageList"></div>
+        <button class="btn-add-room" onclick="addMeetingRoom()">+ 添加会议室</button>
+      </div>
+
+      <!-- 门切换 -->
+      <div class="hr-nav" style="margin-bottom:16px" id="gateNav">
+        <button class="active" data-gate="gate1">🚌 一号门（公共交通）</button>
+        <button data-gate="gate2">🚗 二号门（自驾）</button>
+      </div>
+
+      <!-- 门配置区域（动态渲染） -->
+      <div id="gateConfigArea"></div>
+
+      <button class="btn-primary" onclick="hrSaveConfig()" style="margin-top:4px">保存配置</button>
+    </div>
+
+    <!-- Tab: 设置 -->
+    <div id="tabSettings" class="hidden">
+      <div class="card">
+        <div class="card-title">管理密码</div>
+        <div class="setting-group">
+          <div class="setting-label">修改后台密码</div>
+          <div class="pw-row">
+            <input type="password" id="newPw" placeholder="输入新密码">
+            <button onclick="hrChangePw()">确认修改</button>
+          </div>
+          <div class="setting-hint">默认密码：123456</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">数据管理</div>
+        <div class="setting-group">
+          <div class="setting-label">清空求职者记录</div>
+          <button class="btn-danger" onclick="hrClearData()">清空所有记录</button>
+          <div class="setting-hint">此操作不可恢复</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">☁️ 云端同步（GitHub Gist）</div>
+        <div class="setting-group">
+          <div class="setting-label">GitHub Token</div>
+          <div class="pw-row">
+            <input type="password" id="ghToken" placeholder="输入 GitHub Token">
+            <button onclick="saveCloudConfig()">保存</button>
+          </div>
+          <div class="setting-hint">在 <a href="https://github.com/settings/tokens" target="_blank" style="color:#0f3460">github.com/settings/tokens</a> 创建，需勾选 gist 权限</div>
+        </div>
+        <div class="setting-group">
+          <div class="setting-label">同步状态</div>
+          <div id="cloudStatus" style="font-size:13px;color:#888;margin-bottom:10px">未配置</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn-small" onclick="initCloudGist()" style="border-color:#0f3460;color:#0f3460;font-weight:600">初始化云端存储</button>
+            <button class="btn-small" onclick="forceCloudSync()" style="border-color:#0a6640;color:#0a6640">立即同步</button>
+            <button class="btn-small" onclick="disableCloud()" style="border-color:#e94560;color:#e94560">关闭同步</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">预览求职者页面</div>
+        <button class="btn-outline" onclick="hrPreview()">打开求职者视角</button>
+        <div class="setting-hint">在新标签页中查看求职者看到的页面</div>
+      </div>
+
+      <button class="btn-outline" onclick="hrLogout()" style="margin-top:8px;color:#e94560;border-color:#e94560">退出后台</button>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 密码弹窗 ====== -->
+<div class="modal-overlay hidden" id="pwModal">
+  <div class="modal-box">
+    <h3>HR 管理后台</h3>
+    <p>请输入管理密码</p>
+    <input type="password" id="pwInput" placeholder="••••••" maxlength="20">
+    <div class="modal-btns">
+      <button class="modal-cancel" onclick="closePwModal()">取消</button>
+      <button class="modal-confirm" onclick="checkPw()">进入</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ===================================================================
+// 数据存储层
+// ===================================================================
+const STORE_KEY = 'interview_guide_data';
+
+// GitHub Gist 云端同步
+const GITHUB_CFG_KEY = 'interview_guide_github_cfg';
+
+function getCloudCfg() {
+  try {
+    return JSON.parse(localStorage.getItem(GITHUB_CFG_KEY)) || { token: '', gistId: '', enabled: false };
+  } catch(e) { return { token: '', gistId: '', enabled: false }; }
+}
+
+function setCloudCfg(cfg) {
+  localStorage.setItem(GITHUB_CFG_KEY, JSON.stringify(cfg));
+}
+
+async function cloudLoad() {
+  const cfg = getCloudCfg();
+  if (!cfg.enabled || !cfg.gistId || !cfg.token) return null;
+  try {
+    const resp = await fetch('https://api.github.com/gists/' + cfg.gistId, {
+      headers: { 'Authorization': 'token ' + cfg.token, 'Accept': 'application/vnd.github.v3+json' }
+    });
+    if (resp.ok) {
+      const json = await resp.json();
+      const content = json.files && json.files['data.json'] && json.files['data.json'].content;
+      if (content) return JSON.parse(content);
+    }
+  } catch(e) { console.warn('云端加载失败:', e); }
+  return null;
+}
+
+async function cloudSave(data) {
+  const cfg = getCloudCfg();
+  if (!cfg.enabled || !cfg.gistId || !cfg.token) return false;
+  try {
+    const resp = await fetch('https://api.github.com/gists/' + cfg.gistId, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'token ' + cfg.token },
+      body: JSON.stringify({ files: { 'data.json': { content: JSON.stringify(data) } } })
+    });
+    return resp.ok;
+  } catch(e) { console.warn('云端保存失败:', e); return false; }
+}
+
+async function cloudCreate(data) {
+  const cfg = getCloudCfg();
+  if (!cfg.token) return null;
+  try {
+    const resp = await fetch('https://api.github.com/gists', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'token ' + cfg.token
+      },
+      body: JSON.stringify({
+        description: '面试引导页数据存储',
+        public: false,
+        files: { 'data.json': { content: JSON.stringify(data) } }
+      })
+    });
+    if (resp.ok) {
+      const json = await resp.json();
+      return json.id;
+    }
+  } catch(e) { console.warn('云端创建失败:', e); }
+  return null;
+}
+
+// 生成唯一ID
+function genId(prefix) {
+  return prefix + '_' + Date.now().toString(36) + '_' + Math.random().toString(36).substr(2, 6);
+}
+
+// 默认步骤模板
+function defaultSteps(gateName) {
+  return [
+    { title: '到达' + gateName, desc: '请从' + gateName + '进入园区', photo: '' },
+    { title: '寻找保安', desc: '找到保安后说明来访面试', photo: '' },
+    { title: '路线图到会客室', desc: '参照路线图前往', photo: '' }
+  ];
+}
+
+// 默认数据
+function getDefaultData() {
+  return {
+    password: '123456',
+    meetingRooms: [
+      { id: genId('room'), name: '1F-A会议室' },
+      { id: genId('room'), name: '2F-B会议室' }
+    ],
+    gates: {
+      gate1: { address: '请在一号门配置面试地址', steps: defaultSteps('一号门') },
+      gate2: { address: '请在二号门配置面试地址', steps: defaultSteps('二号门') }
+    },
+    visitors: []
+  };
+}
+
+/**
+ * 数据迁移：将旧的 photos 对象格式转换为新的 steps 数组格式
+ * 旧格式：{ photo1:'', photo2:'', photo3:'', photo4a:'', photo4b:'' }
+ * 新格式：[{ title:'', desc:'', photo:'' }, ...]
+ */
+function migratePhotosToSteps(photos, gateName) {
+  if (!photos || typeof photos !== 'object') return defaultSteps(gateName);
+  const steps = [];
+  // photo1 -> 步骤1
+  if (photos.photo1 !== undefined) {
+    steps.push({ title: '到达' + gateName, desc: '请从' + gateName + '进入园区', photo: photos.photo1 || '' });
+  }
+  // photo2 -> 步骤2
+  if (photos.photo2 !== undefined) {
+    steps.push({ title: '寻找保安', desc: '找到保安后说明来访面试', photo: photos.photo2 || '' });
+  }
+  // photo3 -> 步骤3
+  if (photos.photo3 !== undefined) {
+    steps.push({ title: '路线图到会客室', desc: '参照路线图前往', photo: photos.photo3 || '' });
+  }
+  // photo4a + photo4b -> 步骤4（合并为一步）
+  if (photos.photo4a !== undefined || photos.photo4b !== undefined) {
+    steps.push({ title: '到达等候区', desc: '请在等候区稍作等待', photo: photos.photo4a || '' });
+  }
+  return steps.length > 0 ? steps : defaultSteps(gateName);
+}
+
+/**
+ * 加载数据并执行兼容性迁移
+ */
+function loadData() {
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    if (!raw) return getDefaultData();
+    const d = JSON.parse(raw);
+
+    // 兼容：最旧的 address+photos 格式
+    if (d.address && !d.gates) {
+      d.gates = {
+        gate1: { address: d.address, photos: d.photos || {} },
+        gate2: { address: d.address, photos: d.photos || {} }
+      };
+      delete d.address;
+      delete d.photos;
+    }
+
+    // 确保 gates 结构完整
+    if (!d.gates) d.gates = {};
+    ['gate1', 'gate2'].forEach(gk => {
+      if (!d.gates[gk]) d.gates[gk] = { address: '', steps: defaultSteps(gk === 'gate1' ? '一号门' : '二号门') };
+      // 兼容迁移：photos -> steps
+      if (d.gates[gk].photos && !d.gates[gk].steps) {
+        const gateName = gk === 'gate1' ? '一号门' : '二号门';
+        d.gates[gk].steps = migratePhotosToSteps(d.gates[gk].photos, gateName);
+        delete d.gates[gk].photos;
+      }
+      if (!d.gates[gk].steps || !Array.isArray(d.gates[gk].steps)) {
+        d.gates[gk].steps = defaultSteps(gk === 'gate1' ? '一号门' : '二号门');
+      }
+      if (!d.gates[gk].address) d.gates[gk].address = '';
+    });
+
+    // 确保 meetingRooms 存在
+    if (!Array.isArray(d.meetingRooms)) {
+      d.meetingRooms = [];
+    }
+
+    // 确保 password 存在
+    if (!d.password) d.password = '123456';
+
+    // 确保 visitors 存在
+    if (!Array.isArray(d.visitors)) d.visitors = [];
+
+    return d;
+  } catch(e) {
+    return getDefaultData();
+  }
+}
+
+function saveData(d) {
+  localStorage.setItem(STORE_KEY, JSON.stringify(d));
+  // 异步同步到云端（不阻塞 UI）
+  cloudSave(d);
+}
+
+// 云端配置管理
+function renderCloudStatus() {
+  const cfg = getCloudCfg();
+  const el = document.getElementById('cloudStatus');
+  if (!el) return;
+  const keyInput = document.getElementById('ghToken');
+  if (keyInput) keyInput.value = cfg.token || '';
+  
+  if (!cfg.token) {
+    el.innerHTML = '<span style="color:#e94560">❌ 未配置 GitHub Token</span>';
+  } else if (!cfg.enabled || !cfg.gistId) {
+    el.innerHTML = '<span style="color:#cc8800">⚠️ Token 已配置，但未初始化云端存储</span>';
+  } else {
+    el.innerHTML = '<span style="color:#0a6640">✅ 已连接 | Gist ID: ' + cfg.gistId + '</span>';
+  }
+}
+
+function saveCloudConfig() {
+  const key = document.getElementById('ghToken').value.trim();
+  if (!key) { toast('请输入 GitHub Token'); return; }
+  const cfg = getCloudCfg();
+  cfg.token = key;
+  setCloudCfg(cfg);
+  renderCloudStatus();
+  toast('Token 已保存');
+}
+
+async function initCloudGist() {
+  const cfg = getCloudCfg();
+  if (!cfg.token) { toast('请先输入 GitHub Token'); return; }
+  if (cfg.gistId) {
+    if (!confirm('已有云端存储，重新初始化会创建新的存储，旧数据不会自动迁移。确定继续？')) return;
+  }
+  toast('正在创建云端存储...');
+  const gistId = await cloudCreate(DATA);
+  if (gistId) {
+    cfg.gistId = gistId;
+    cfg.enabled = true;
+    setCloudCfg(cfg);
+    renderCloudStatus();
+    toast('云端存储已创建并同步 ✅');
+  } else {
+    toast('创建失败，请检查 Token 是否正确');
+  }
+}
+
+async function forceCloudSync() {
+  const cfg = getCloudCfg();
+  if (!cfg.enabled || !cfg.gistId) { toast('请先初始化云端存储'); return; }
+  toast('正在同步...');
+  const ok = await cloudSave(DATA);
+  if (ok) {
+    toast('同步成功 ✅');
+  } else {
+    toast('同步失败，请检查网络');
+  }
+}
+
+function disableCloud() {
+  if (!confirm('确定关闭云端同步？本地数据不会丢失。')) return;
+  const cfg = getCloudCfg();
+  cfg.enabled = false;
+  setCloudCfg(cfg);
+  renderCloudStatus();
+  toast('云端同步已关闭');
+}
+
+let DATA = loadData();
+
+// ===================================================================
+// 工具函数
+// ===================================================================
+const pad = n => String(n).padStart(2, '0');
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// ===================================================================
+// 页面切换
+// ===================================================================
+function showCandidate() {
+  document.getElementById('pageCandidate').classList.remove('hidden');
+  document.getElementById('pageHR').classList.add('hidden');
+}
+function showHR() {
+  document.getElementById('pageCandidate').classList.add('hidden');
+  document.getElementById('pageHR').classList.remove('hidden');
+  hrRenderVisitors();
+  hrLoadConfig();
+}
+
+// ===================================================================
+// 求职者 - 表单逻辑
+// ===================================================================
+const cName = document.getElementById('cName');
+const cTravel = document.getElementById('cTravel');
+const plateWrap = document.getElementById('plateWrap');
+const cPlate = document.getElementById('cPlate');
+const cTime = document.getElementById('cTime');
+const submitBtn = document.getElementById('submitBtn');
+const cTimeConfirm = document.getElementById('cTimeConfirm');
+const cTimeConfirmed = document.getElementById('cTimeConfirmed');
+let timeConfirmed = false;
+
+cTimeConfirm.addEventListener('click', function() {
+  if (!cTime.value) { toast('请先选择面试时间'); return; }
+  timeConfirmed = true;
+  cTimeConfirmed.classList.remove('hidden');
+  cTimeConfirm.style.color = '#0a6640';
+  cTimeConfirm.style.borderColor = '#0a6640';
+  cTimeConfirm.textContent = '✓';
+  validateForm();
+});
+
+cTime.addEventListener('change', function() {
+  if (timeConfirmed) {
+    timeConfirmed = false;
+    cTimeConfirmed.classList.add('hidden');
+    cTimeConfirm.style.color = '#0f3460';
+    cTimeConfirm.style.borderColor = '#0f3460';
+    cTimeConfirm.textContent = '确定';
+  }
+  validateForm();
+});
+
+cTravel.addEventListener('change', function() {
+  plateWrap.classList.toggle('show', this.value === 'drive');
+  if (this.value !== 'drive') cPlate.value = '';
+  validateForm();
+});
+
+function validateForm() {
+  const ok = cName.value.trim()
+    && cTravel.value
+    && cTime.value
+    && timeConfirmed
+    && (cTravel.value !== 'drive' || cPlate.value.trim());
+  submitBtn.disabled = !ok;
+}
+[cName, cPlate].forEach(el => el.addEventListener('input', validateForm));
+
+// 默认明天10点
+const now = new Date();
+const tmr = new Date(now.getTime() + 86400000);
+tmr.setHours(10, 0, 0, 0);
+cTime.value = `${tmr.getFullYear()}-${pad(tmr.getMonth()+1)}-${pad(tmr.getDate())}T${pad(tmr.getHours())}:${pad(tmr.getMinutes())}`;
+
+// 提交表单
+submitBtn.addEventListener('click', function() {
+  const name = cName.value.trim();
+  const travel = cTravel.value;
+  const plate = travel === 'drive' ? cPlate.value.trim() : '';
+  const timeVal = cTime.value;
+  const dt = new Date(timeVal);
+  const wk = ['日','一','二','三','四','五','六'];
+  const timeStr = `${dt.getFullYear()}年${dt.getMonth()+1}月${dt.getDate()}日 周${wk[dt.getDay()]} ${pad(dt.getHours())}:${pad(dt.getMinutes())}`;
+
+  // 保存记录（含 visitorId 用于后续匹配 roomId）
+  const visitorId = genId('v');
+  DATA.visitors.push({
+    id: visitorId,
+    name, travel, plate,
+    interviewTime: timeVal,
+    interviewTimeStr: timeStr,
+    roomId: '',
+    submittedAt: new Date().toISOString()
+  });
+  saveDataSafe(DATA);
+
+  // 渲染引导页
+  const gateKey = travel === 'drive' ? 'gate2' : 'gate1';
+  const gateText = travel === 'drive' ? '2号门' : '1号门';
+  const gateEmoji = travel === 'drive' ? '🚗' : '🚌';
+  const gateData = DATA.gates[gateKey];
+
+  document.getElementById('gName').textContent = `${name}，欢迎您`;
+  document.getElementById('gTime').textContent = `面试时间：${timeStr}`;
+  document.getElementById('gAddr').textContent = gateData.address || '';
+
+  const gPlate = document.getElementById('gPlate');
+  gPlate.classList.remove('hidden');
+  gPlate.innerHTML = `${gateEmoji} 请前往 <strong>${gateText}</strong>${plate ? ' &nbsp;|&nbsp; 车牌号：' + plate : ''}`;
+
+  // 渲染会议室信息（新提交暂无分配，显示空）
+  renderRoomInfoCard('');
+
+  // 渲染步骤
+  renderGuideSteps(gateKey);
+
+  document.getElementById('formSection').classList.add('hidden');
+  document.getElementById('guideSection').classList.remove('hidden');
+  window.scrollTo(0, 0);
+});
+
+// ===================================================================
+// 求职者引导页 - 会议室信息卡片
+// ===================================================================
+function renderRoomInfoCard(roomId) {
+  const container = document.getElementById('roomInfoCard');
+  if (!roomId) {
+    container.innerHTML = '';
+    return;
+  }
+  const room = (DATA.meetingRooms || []).find(r => r.id === roomId);
+  if (!room) {
+    container.innerHTML = '';
+    return;
+  }
+  container.innerHTML = `
+    <div class="room-card">
+      <div class="room-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+      </div>
+      <div>
+        <div class="room-label">您的面试会议室</div>
+        <div class="room-name">${room.name}</div>
+      </div>
+    </div>`;
+}
+
+// ===================================================================
+// 求职者引导页 - 动态步骤渲染
+// ===================================================================
+function renderGuideSteps(gateKey) {
+  const steps = DATA.gates[gateKey].steps || [];
+  const container = document.getElementById('stepsContainer');
+
+  if (steps.length === 0) {
+    container.innerHTML = '<div class="card" style="text-align:center;color:#999;padding:32px 20px">暂无步骤配置</div>';
+    return;
+  }
+
+  let html = '';
+  steps.forEach((s, i) => {
+    html += `<div class="step-card">
+      <div class="step-header">
+        <div class="step-num">${i + 1}</div>
+        <div>
+          <div class="step-title">${s.title || ''}</div>
+          <div class="step-desc">${s.desc || ''}</div>
+        </div>
+      </div>
+      <div class="step-body">
+        <div class="photo-display">
+          ${s.photo ? `<img src="${s.photo}">` : '暂无照片'}
+        </div>
+      </div>
+    </div>`;
+    if (i < steps.length - 1) {
+      html += '<div class="connector"><div class="line"></div></div>';
+    }
+  });
+  container.innerHTML = html;
+}
+
+// ===================================================================
+// HR 入口 & 密码
+// ===================================================================
+document.getElementById('hrEntryBtn').addEventListener('click', function() {
+  document.getElementById('pwModal').classList.remove('hidden');
+  document.getElementById('pwInput').value = '';
+  setTimeout(() => document.getElementById('pwInput').focus(), 100);
+});
+
+function closePwModal() {
+  document.getElementById('pwModal').classList.add('hidden');
+}
+
+function checkPw() {
+  const val = document.getElementById('pwInput').value;
+  DATA = loadData();
+  if (val === DATA.password) {
+    closePwModal();
+    showHR();
+  } else {
+    toast('密码错误');
+    document.getElementById('pwInput').value = '';
+  }
+}
+
+document.getElementById('pwInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') checkPw();
+});
+
+// ===================================================================
+// HR - Tab 切换
+// ===================================================================
+document.querySelectorAll('.hr-nav > button[data-tab]').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.hr-nav > button[data-tab]').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    const tab = this.dataset.tab;
+    document.getElementById('tabVisitors').classList.toggle('hidden', tab !== 'visitors');
+    document.getElementById('tabConfig').classList.toggle('hidden', tab !== 'config');
+    document.getElementById('tabSettings').classList.toggle('hidden', tab !== 'settings');
+  });
+});
+
+// ===================================================================
+// HR - 求职者记录（含会议室分配）
+// ===================================================================
+function hrRenderVisitors() {
+  DATA = loadData();
+  const list = DATA.visitors || [];
+  const total = list.length;
+  const drive = list.filter(v => v.travel === 'drive').length;
+  const transit = total - drive;
+
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statDrive').textContent = drive;
+  document.getElementById('statTransit').textContent = transit;
+
+  const container = document.getElementById('visitorList');
+  if (total === 0) {
+    container.innerHTML = `<div class="card">
+      <div class="empty-state">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        <p>暂无求职者记录</p>
+      </div>
+    </div>`;
+    return;
+  }
+
+  // 构建会议室下拉选项
+  const rooms = DATA.meetingRooms || [];
+  let roomOptions = '<option value="">未分配</option>';
+  rooms.forEach(r => {
+    roomOptions += `<option value="${r.id}">${r.name}</option>`;
+  });
+
+  let html = '';
+  const sorted = [...list].reverse();
+  sorted.forEach((v) => {
+    const submitDate = new Date(v.submittedAt);
+    const submitStr = `${submitDate.getMonth()+1}/${submitDate.getDate()} ${pad(submitDate.getHours())}:${pad(submitDate.getMinutes())}`;
+    const travelLabel = v.travel === 'drive' ? '🚗 自驾' : '🚌 公共交通';
+    const travelClass = v.travel === 'drive' ? 'drive' : 'transit';
+    const currentRoom = v.roomId || '';
+
+    html += `<div class="visitor-item">
+      <div class="visitor-name">${v.name}</div>
+      <div class="visitor-meta">
+        <span class="visitor-tag ${travelClass}">${travelLabel}</span>
+        ${v.plate ? `<span class="visitor-tag">${v.plate}</span>` : ''}
+      </div>
+      <div class="visitor-time">面试：${v.interviewTimeStr}<br>提交：${submitStr}</div>
+      <div class="visitor-room-row">
+        <label>分配会议室：</label>
+        <select onchange="assignRoom('${v.id}', this.value)">
+          ${roomOptions.replace(`value="${currentRoom}"`, `value="${currentRoom}" selected`)}
+        </select>
+      </div>
+    </div>`;
+  });
+  container.innerHTML = html;
+}
+
+/**
+ * 为求职者分配会议室
+ */
+function assignRoom(visitorId, roomId) {
+  const visitor = DATA.visitors.find(v => v.id === visitorId);
+  if (visitor) {
+    visitor.roomId = roomId;
+    saveDataSafe(DATA);
+    toast(roomId ? '会议室已分配' : '已取消分配');
+  }
+}
+
+// ===================================================================
+// HR - 门切换
+// ===================================================================
+let currentGate = 'gate1';
+
+function initGateNav() {
+  document.querySelectorAll('#gateNav button').forEach(btn => {
+    btn.addEventListener('click', function() {
+      // 先保存当前门的地址
+      var addrEl = document.getElementById('cfgAddress_current');
+      if (addrEl) {
+        DATA.gates[currentGate].address = addrEl.value.trim() || '';
+        saveDataSafe(DATA);
+      }
+      document.querySelectorAll('#gateNav button').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      currentGate = this.dataset.gate;
+      renderGateConfig();
+    });
+  });
+}
+
+// ===================================================================
+// HR - 会议室管理
+// ===================================================================
+function renderRoomManageList() {
+  const container = document.getElementById('roomManageList');
+  const rooms = DATA.meetingRooms || [];
+
+  if (rooms.length === 0) {
+    container.innerHTML = '<div style="text-align:center;color:#aaa;font-size:13px;padding:12px 0">暂无会议室，点击下方按钮添加</div>';
+    return;
+  }
+
+  let html = '';
+  rooms.forEach((r, i) => {
+    html += `<div class="room-list-item">
+      <input type="text" value="${r.name}" placeholder="会议室名称" onchange="updateRoomName('${r.id}', this.value)">
+      <button class="room-del-btn" onclick="deleteMeetingRoom('${r.id}')" title="删除">&times;</button>
+    </div>`;
+  });
+  container.innerHTML = html;
+}
+
+function addMeetingRoom() {
+  if (!DATA.meetingRooms) DATA.meetingRooms = [];
+  const newRoom = { id: genId('room'), name: '' };
+  DATA.meetingRooms.push(newRoom);
+  saveDataSafe(DATA);
+  renderRoomManageList();
+  // 聚焦到新增的输入框
+  setTimeout(() => {
+    const inputs = document.querySelectorAll('#roomManageList input');
+    if (inputs.length > 0) inputs[inputs.length - 1].focus();
+  }, 50);
+  toast('已添加新会议室');
+}
+
+function updateRoomName(roomId, name) {
+  const room = (DATA.meetingRooms || []).find(r => r.id === roomId);
+  if (room) {
+    room.name = name.trim();
+    saveDataSafe(DATA);
+  }
+}
+
+function deleteMeetingRoom(roomId) {
+  if (!confirm('确定删除该会议室吗？已分配的求职者将变为"未分配"。')) return;
+  DATA.meetingRooms = (DATA.meetingRooms || []).filter(r => r.id !== roomId);
+  // 清除求职者中对该会议室的引用
+  DATA.visitors.forEach(v => {
+    if (v.roomId === roomId) v.roomId = '';
+  });
+  saveDataSafe(DATA);
+  renderRoomManageList();
+  toast('会议室已删除');
+}
+
+// ===================================================================
+// HR - 页面配置（动态步骤编辑）
+// ===================================================================
+function renderGateConfig() {
+  const gateKey = currentGate;
+  const gateName = gateKey === 'gate1' ? '一号门' : '二号门';
+  const gateData = DATA.gates[gateKey];
+  const steps = gateData.steps || [];
+  const travelHint = gateKey === 'gate1' ? '选择公共交通的求职者将看到此地址' : '选择自驾的求职者将看到此地址';
+  const travelEmoji = gateKey === 'gate1' ? '🚌' : '🚗';
+
+  let stepsHtml = '';
+  steps.forEach((s, i) => {
+    stepsHtml += `
+    <div class="step-edit-card" data-step-idx="${i}">
+      <div class="step-edit-header">
+        <div class="step-edit-num">${i + 1}</div>
+        <div class="step-edit-title-label">步骤 ${i + 1}</div>
+        <button class="step-edit-del" onclick="deleteStep(${i})" title="删除步骤">&times;</button>
+      </div>
+      <div class="step-edit-field">
+        <label>标题</label>
+        <input type="text" value="${(s.title || '').replace(/"/g, '&quot;')}" onchange="updateStepField(${i}, 'title', this.value)">
+      </div>
+      <div class="step-edit-field">
+        <label>描述</label>
+        <input type="text" value="${(s.desc || '').replace(/"/g, '&quot;')}" onchange="updateStepField(${i}, 'desc', this.value)">
+      </div>
+      <div class="step-edit-field">
+        <label>照片</label>
+        <label class="upload-slot" id="stepUpload_${gateKey}_${i}" style="aspect-ratio:16/9">
+          ${s.photo
+            ? `<img src="${s.photo}"><button class="remove-btn" onclick="removeStepPhoto(event, ${i})">&times;</button>`
+            : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="12" cy="12" r="3"/><path d="M3 9h2M19 9h2"/></svg><span class="up-text">点击上传照片</span>`
+          }
+          <input type="file" accept="image/*" onchange="uploadStepPhoto(this, ${i})">
+        </label>
+      </div>
+    </div>`;
+  });
+
+  const html = `
+    <div class="card">
+      <div class="card-title">${gateName} · 面试地址</div>
+      <div class="field">
+        <textarea id="cfgAddress_current" placeholder="请输入${gateName}面试地址">${gateData.address || ''}</textarea>
+        <div class="setting-hint">${travelHint}</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">${gateName} · 流程步骤配置</div>
+      <div class="setting-hint" style="margin-bottom:14px;margin-top:-8px">可自由增删步骤，每个步骤包含标题、描述和照片</div>
+      <div id="stepsEditList">${stepsHtml}</div>
+      <button class="btn-add-step" onclick="addStep()">+ 添加步骤</button>
+    </div>`;
+
+  document.getElementById('gateConfigArea').innerHTML = html;
+}
+
+/**
+ * 添加新步骤
+ */
+function addStep() {
+  const gateData = DATA.gates[currentGate];
+  if (!gateData.steps) gateData.steps = [];
+  gateData.steps.push({ title: '新步骤', desc: '请描述该步骤', photo: '' });
+  saveDataSafe(DATA);
+  renderGateConfig();
+  toast('已添加新步骤');
+}
+
+/**
+ * 删除步骤
+ */
+function deleteStep(idx) {
+  const gateData = DATA.gates[currentGate];
+  if (!gateData.steps || gateData.steps.length <= 1) {
+    toast('至少保留一个步骤');
+    return;
+  }
+  if (!confirm(`确定删除步骤 ${idx + 1} 吗？`)) return;
+  gateData.steps.splice(idx, 1);
+  saveDataSafe(DATA);
+  renderGateConfig();
+  toast('步骤已删除');
+}
+
+/**
+ * 更新步骤字段（title / desc）
+ */
+function updateStepField(idx, field, value) {
+  const gateData = DATA.gates[currentGate];
+  if (gateData.steps && gateData.steps[idx]) {
+    gateData.steps[idx][field] = value;
+    saveDataSafe(DATA);
+  }
+}
+
+/**
+ * 上传步骤照片
+ */
+function uploadStepPhoto(input, stepIdx) {
+  var file = input.files[0];
+  if (!file) return;
+  compressImage(file).then(function(dataUrl) {
+    var gateData = DATA.gates[currentGate];
+    if (gateData.steps && gateData.steps[stepIdx]) {
+      gateData.steps[stepIdx].photo = dataUrl;
+      if (!saveDataSafe(DATA)) {
+        // 存储失败，回滚
+        gateData.steps[stepIdx].photo = '';
+        return;
+      }
+      renderGateConfig();
+      toast('照片已上传（已压缩）');
+    }
+  }).catch(function(err) {
+    toast('图片处理失败：' + err.message);
+  });
+}
+
+/**
+ * 移除步骤照片
+ */
+function removeStepPhoto(e, stepIdx) {
+  e.preventDefault();
+  e.stopPropagation();
+  const gateData = DATA.gates[currentGate];
+  if (gateData.steps && gateData.steps[stepIdx]) {
+    gateData.steps[stepIdx].photo = '';
+    saveDataSafe(DATA);
+    renderGateConfig();
+    toast('照片已移除');
+  }
+}
+
+// ===================================================================
+// HR - 配置加载 & 保存
+// ===================================================================
+function hrLoadConfig() {
+  DATA = loadData();
+  renderRoomManageList();
+  renderGateConfig();
+  renderCloudStatus();
+}
+
+function hrSaveConfig() {
+  // 保存当前门的地址
+  const addrEl = document.getElementById('cfgAddress_current');
+  if (addrEl) {
+    DATA.gates[currentGate].address = addrEl.value.trim() || '';
+  }
+  saveDataSafe(DATA);
+  toast('配置已保存');
+}
+
+// ===================================================================
+// HR - 设置功能
+// ===================================================================
+function hrChangePw() {
+  const val = document.getElementById('newPw').value.trim();
+  if (!val) { toast('请输入新密码'); return; }
+  if (val.length < 4) { toast('密码至少4位'); return; }
+  DATA.password = val;
+  saveDataSafe(DATA);
+  document.getElementById('newPw').value = '';
+  toast('密码已修改');
+}
+
+function hrClearData() {
+  if (!confirm('确定要清空所有求职者记录吗？此操作不可恢复。')) return;
+  DATA.visitors = [];
+  saveDataSafe(DATA);
+  hrRenderVisitors();
+  toast('记录已清空');
+}
+
+function hrPreview() {
+  document.getElementById('formSection').classList.remove('hidden');
+  document.getElementById('guideSection').classList.add('hidden');
+  cName.value = '';
+  cTravel.value = '';
+  cPlate.value = '';
+  plateWrap.classList.remove('show');
+  submitBtn.disabled = true;
+  timeConfirmed = false;
+  cTimeConfirmed.classList.add('hidden');
+  cTimeConfirm.style.color = '#0f3460';
+  cTimeConfirm.style.borderColor = '#0f3460';
+  cTimeConfirm.textContent = '确定';
+  cTime.value = `${tmr.getFullYear()}-${pad(tmr.getMonth()+1)}-${pad(tmr.getDate())}T${pad(tmr.getHours())}:${pad(tmr.getMinutes())}`;
+  showCandidate();
+}
+
+function hrLogout() {
+  showCandidate();
+  toast('已退出后台');
+}
+
+// ===================================================================
+// 图片压缩 & 安全保存
+// ===================================================================
+function compressImage(file, maxWidth, quality) {
+  maxWidth = maxWidth || 1200;
+  quality = quality || 0.8;
+  return new Promise(function(resolve, reject) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var img = new Image();
+      img.onload = function() {
+        var w = img.width, h = img.height;
+        if (w > maxWidth) {
+          h = Math.round(h * maxWidth / w);
+          w = maxWidth;
+        }
+        var canvas = document.createElement('canvas');
+        canvas.width = w;
+        canvas.height = h;
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.onerror = function() { reject(new Error('图片加载失败')); };
+      img.src = e.target.result;
+    };
+    reader.onerror = function() { reject(new Error('文件读取失败')); };
+    reader.readAsDataURL(file);
+  });
+}
+
+function saveDataSafe(d) {
+  try {
+    localStorage.setItem(STORE_KEY, JSON.stringify(d));
+    return true;
+  } catch(e) {
+    if (e.name === 'QuotaExceededError' || e.code === 22) {
+      toast('存储空间已满，请清理旧数据');
+    } else {
+      toast('保存失败：' + e.message);
+    }
+    return false;
+  }
+}
+
+// ===================================================================
+// 初始化
+// ===================================================================
+initGateNav();
+
+// 启动时从云端同步最新数据
+(async function initCloudSync() {
+  const cfg = getCloudCfg();
+  if (!cfg.enabled || !cfg.gistId) return;
+  const cloudData = await cloudLoad();
+  if (cloudData && typeof cloudData === 'object' && cloudData.gates) {
+    DATA = cloudData;
+    // 确保数据结构完整
+    if (!DATA.meetingRooms) DATA.meetingRooms = [];
+    if (!DATA.visitors) DATA.visitors = [];
+    if (!DATA.password) DATA.password = '123456';
+    ['gate1','gate2'].forEach(function(gk) {
+      if (!DATA.gates[gk]) DATA.gates[gk] = { address: '', steps: defaultSteps(gk === 'gate1' ? '一号门' : '二号门') };
+      if (!Array.isArray(DATA.gates[gk].steps)) DATA.gates[gk].steps = defaultSteps(gk === 'gate1' ? '一号门' : '二号门');
+    });
+    localStorage.setItem(STORE_KEY, JSON.stringify(DATA));
+    console.log('云端数据已同步');
+  }
+})();
+</script>
+</body>
+</html>
