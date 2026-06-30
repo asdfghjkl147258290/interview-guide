@@ -1947,6 +1947,33 @@ initGateNav();
     });
     localStorage.setItem(STORE_KEY, JSON.stringify(DATA));
     console.log('云端数据已同步');
+    // 如果当前正在显示引导页，重新渲染
+    var guideEl = document.getElementById('guideSection');
+    if (guideEl && !guideEl.classList.contains('hidden')) {
+      var nameEl = document.getElementById('gName');
+      var timeEl = document.getElementById('gTime');
+      var addrEl = document.getElementById('gAddr');
+      if (nameEl && timeEl && addrEl) {
+        // 从当前页面推断 gateKey（根据 gPlate 内容或 travel 字段）
+        var lastVisitor = DATA.visitors && DATA.visitors.length > 0 ? DATA.visitors[DATA.visitors.length - 1] : null;
+        if (lastVisitor) {
+          var gk = lastVisitor.travel === 'drive' ? 'gate2' : 'gate1';
+          var gt = lastVisitor.travel === 'drive' ? '2号门' : '1号门';
+          var ge = lastVisitor.travel === 'drive' ? '🚗' : '🚌';
+          var gd = DATA.gates[gk];
+          nameEl.textContent = lastVisitor.name + '，欢迎您';
+          timeEl.textContent = '面试时间：' + (lastVisitor.interviewTimeStr || '');
+          addrEl.textContent = gd.address || '';
+          var gPlate = document.getElementById('gPlate');
+          if (gPlate) {
+            gPlate.classList.remove('hidden');
+            gPlate.innerHTML = ge + ' 请前往 <strong>' + gt + '</strong>' + (lastVisitor.plate ? ' &nbsp;|&nbsp; 车牌号：' + lastVisitor.plate : '');
+          }
+          renderRoomInfoCard(lastVisitor.roomId || '');
+          renderGuideSteps(gk);
+        }
+      }
+    }
   }
 })();
 </script>
