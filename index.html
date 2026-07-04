@@ -1237,6 +1237,13 @@ function loadData() {
     // 确保 visitors 存在
     if (!Array.isArray(d.visitors)) d.visitors = [];
 
+    // 自动修正旧默认地址
+    const OLD_HINT1 = '请在一号门配置面试地址';
+    const OLD_HINT2 = '请在二号门配置面试地址';
+    const NEW_ADDR = '立讯精密工业(苏州)有限公司';
+    if (d.gates && d.gates.gate1 && d.gates.gate1.address === OLD_HINT1) d.gates.gate1.address = NEW_ADDR;
+    if (d.gates && d.gates.gate2 && d.gates.gate2.address === OLD_HINT2) d.gates.gate2.address = NEW_ADDR;
+
     return d;
   } catch(e) {
     return getDefaultData();
