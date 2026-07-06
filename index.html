@@ -1410,14 +1410,19 @@ body {
   }
 
   // ==================== GitHub API (using fetch) ====================
-  var apiHeaders = {
-    'Accept': 'application/vnd.github+json',
-    'Authorization': 'token ' + state.token,
-    'Content-Type': 'application/json'
-  };
+  function getHeaders() {
+    var h = {
+      'Accept': 'application/vnd.github+json',
+      'Content-Type': 'application/json'
+    };
+    if (state.token) {
+      h['Authorization'] = 'token ' + state.token;
+    }
+    return h;
+  }
 
   function apiGet(path, callback) {
-    fetch(API_BASE + path, { headers: apiHeaders })
+    fetch(API_BASE + path, { headers: getHeaders() })
       .then(function(r) {
         setSyncStatus(r.ok);
         if (!r.ok) throw new Error('API Error: ' + r.status);
@@ -1430,7 +1435,7 @@ body {
   function apiPost(path, data, callback) {
     fetch(API_BASE + path, {
       method: 'POST',
-      headers: apiHeaders,
+      headers: getHeaders(),
       body: JSON.stringify(data)
     })
       .then(function(r) {
@@ -1444,7 +1449,7 @@ body {
   function apiPatch(issueNumber, data, callback) {
     fetch(API_BASE + '/issues/' + issueNumber, {
       method: 'PATCH',
-      headers: apiHeaders,
+      headers: getHeaders(),
       body: JSON.stringify(data)
     })
       .then(function(r) {
@@ -1757,7 +1762,6 @@ body {
       if (tk && tk.trim()) {
         state.token = tk.trim();
         localStorage.setItem('hr_token', tk.trim());
-        apiHeaders.Authorization = 'token ' + state.token;
         showToast('Token 已保存，正在验证...', 'info');
         // Re-verify password with new token
         loadConfig(function(err, config) {
