@@ -1485,25 +1485,34 @@ body {
 
   function initConfig(callback) {
     if (!state.token) {
-      console.log('No token, skipping init config');
       if (callback) callback(null);
       return;
     }
-    // PATCH Issue #1 with config
-    var data = {
-      title: '[config] 全局配置',
-      body: JSON.stringify(defaultConfig),
-      state: 'open'
-    };
-    apiPatch(CONFIG_ISSUE_NUMBER, data, function(err, result) {
-      if (err) {
-        console.error('Init config failed:', err);
-        if (callback) callback(err);
-      } else {
-        console.log('Config initialized:', result);
-        state.config = defaultConfig;
-        state.configUpdatedAt = result.updated_at;
+    // Only init if Issue #1 does not exist yet
+    apiGet('/issues/1', function(err, result) {
+      if (!err && result) {
+        // Issue exists, don't overwrite - just load it
+        console.log('Config Issue #1 already exists, skipping init');
         if (callback) callback(null);
+      } else {
+        // Issue doesn't exist, create it
+        var data = {
+          title: '[config] 全局配置',
+          body: JSON.stringify(defaultConfig),
+          labels: ['interview-config'],
+          state: 'open'
+        };
+        apiPost('/issues', data, function(err, result) {
+          if (err) {
+            console.error('Init config failed:', err);
+            if (callback) callback(err);
+          } else {
+            console.log('Config initialized:', result);
+            state.config = defaultConfig;
+            state.configUpdatedAt = result.updated_at;
+            if (callback) callback(null);
+          }
+        });
       }
     });
   }
