@@ -1466,6 +1466,7 @@ body {
   }
 
   // ==================== Config ====================
+  // 内置配置：求职者无需API即可看到引导（照片直接嵌入URL）
   var defaultConfig = {
     company: "立讯精密工业(苏州)有限公司",
     defaultGate: "2号门",
@@ -1477,9 +1478,9 @@ body {
       "A栋1楼-前台大厅"
     ],
     steps: [
-      { title: "到达二号门", desc: "请从二号门进入园区", photo: "" },
-      { title: "寻找保安", desc: "找到保安后说明来访面试", photo: "" },
-      { title: "路线图到会客室", desc: "参照路线图前往", photo: "" }
+      { title: "到达二号门", desc: "请从二号门进入园区", photo: "https://raw.githubusercontent.com/asdfghjkl147258290/interview-guide/main/photos/gate2_step1.jpg" },
+      { title: "寻找保安", desc: "找到保安后说明来访面试", photo: "https://raw.githubusercontent.com/asdfghjkl147258290/interview-guide/main/photos/gate2_step2.jpg" },
+      { title: "路线图到会客室", desc: "参照路线图前往", photo: "https://raw.githubusercontent.com/asdfghjkl147258290/interview-guide/main/photos/gate2_step3.jpg" }
     ]
   };
 
@@ -2336,23 +2337,18 @@ body {
     // Restore token: use builtin token as default, allow override from localStorage
     state.token = localStorage.getItem('hr_token') || BUILTIN_TOKEN;
 
-    // If token exists, try to init config and load it
+    // 立即使用内置配置，求职者无需等API加载即可看到完整引导
+    state.config = Object.assign({}, defaultConfig);
+
+    // 如果有Token，尝试从GitHub同步最新配置（可选）
     if (state.token) {
       initConfig(function(err) {
-        if (err) {
-          console.error('Init config error:', err);
-        }
-        loadConfig(function(err2, config) {
-          if (!err2 && config) {
-            state.config = config;
-          }
-        });
-      });
-    } else {
-      // No token, just load config as public
-      loadConfig(function(err, config) {
-        if (!err && config) {
-          state.config = config;
+        if (!err) {
+          loadConfig(function(err2, config) {
+            if (!err2 && config) {
+              state.config = config;
+            }
+          });
         }
       });
     }
