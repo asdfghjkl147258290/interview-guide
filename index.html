@@ -1388,6 +1388,15 @@ body {
   function setSyncStatus(online) {
     var dot = $('syncDot');
     var text = $('syncText');
+    if (!state.token) {
+      // 本地模式：不显示连接状态
+      dot.style.display = 'none';
+      text.textContent = '本地模式';
+      text.style.color = 'var(--success)';
+      return;
+    }
+    dot.style.display = '';
+    text.style.color = '';
     if (online) {
       dot.classList.remove('offline');
       text.textContent = '已连接';
@@ -1554,7 +1563,12 @@ body {
   window.submitVisitorForm = function(e) {
     e.preventDefault();
     var name = $('vName').value.trim();
-    var travel = document.querySelector('input[name="travel"]:checked').value;
+    var travel = document.querySelector('input[name="travel"]:checked');
+    if (!travel) {
+      showToast('请选择出行方式', 'error');
+      return;
+    }
+    travel = travel.value;
     var plate = $('vPlate').value.trim();
     var time = $('vTime').value;
 
@@ -1575,12 +1589,24 @@ body {
       room: ''
     };
 
-    var timestamp = new Date().toISOString();
-    var title = '[visitor] ' + name + ' - ' + timestamp;
-
     var submitBtn = $('submitBtn');
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<span class="spinner"></span> 提交中...';
+
+    // 无Token时：本地模式，直接显示引导页
+    if (!state.token) {
+      state.currentVisitor = visitorData;
+      sessionStorage.setItem('currentVisitor', JSON.stringify(visitorData));
+      showToast('登记成功！', 'success');
+      loadGuideView();
+      submitBtn.disabled = false;
+      submitBtn.textContent = '提交登记';
+      return;
+    }
+
+    // 有Token时：提交到GitHub Issues
+    var timestamp = new Date().toISOString();
+    var title = '[visitor] ' + name + ' - ' + timestamp;
 
     apiPost('/issues', {
       title: title,
@@ -1593,6 +1619,11 @@ body {
       if (err) {
         showToast('提交失败: ' + err.message, 'error');
         console.error(err);
+        // 即使提交失败也显示引导页（本地模式降级）
+        state.currentVisitor = visitorData;
+        sessionStorage.setItem('currentVisitor', JSON.stringify(visitorData));
+        showToast('已切换为本地模式', 'info');
+        loadGuideView();
         return;
       }
 
@@ -2339,6 +2370,9 @@ body {
 
     // 立即使用内置配置，求职者无需等API加载即可看到完整引导
     state.config = Object.assign({}, defaultConfig);
+
+    // 设置连接状态显示
+    setSyncStatus(!!state.token);
 
     // 如果有Token，尝试从GitHub同步最新配置（可选）
     if (state.token) {
